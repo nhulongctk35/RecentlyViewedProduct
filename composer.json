@@ -1,13 +1,17 @@
 {
-  "name": "vienthuong/recently-viewed-products",
+  "name": "nhulongctk10/recently-viewed-products",
   "description": "Recently viewed products plugin",
   "type": "shopware-platform-plugin",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "license": "MIT",
   "authors": [
     {
       "name": "Thuong Le",
       "email": "levienthuong@gmail.com"
+    },
+    {
+      "name": "Long Tran",
+      "email": "nhulongctk10@gmail.com"
     }
   ],
   "autoload": {
@@ -16,8 +20,8 @@
     }
   },
   "require": {
-    "shopware/core": "^6.6.0.0",
-    "shopware/storefront": "^6.6.0.0"
+    "shopware/core": "^6.7.0.0",
+    "shopware/storefront": "^6.7.0.0"
   },
   "extra": {
     "shopware-plugin-class": "RecentlyViewedProduct\\RecentlyViewedProduct",

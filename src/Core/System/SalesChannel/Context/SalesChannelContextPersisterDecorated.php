@@ -3,28 +3,21 @@
 namespace RecentlyViewedProduct\Core\System\SalesChannel\Context;
 
 use Doctrine\DBAL\Connection;
-use Shopware\Core\Checkout\Cart\CartPersister;
+use Shopware\Core\Checkout\Cart\AbstractCartPersister;
 use Shopware\Core\System\SalesChannel\Context\SalesChannelContextPersister;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SalesChannelContextPersisterDecorated extends SalesChannelContextPersister
 {
-    /**
-     * @var SalesChannelContextPersister
-     */
-    private $decorated;
-
-    /**
-     * @var Connection
-     */
-    private $connection;
+    private Connection $connection;
+    private SalesChannelContextPersister $decorated;
 
     public function __construct(
         SalesChannelContextPersister $decorated,
         Connection $connection,
         EventDispatcherInterface $eventDispatcher,
-        CartPersister $cartPersister,
+        AbstractCartPersister $cartPersister,
         ?string $lifetimeInterval = 'P1D'
     ) {
         $this->decorated = $decorated;
@@ -37,7 +30,7 @@ class SalesChannelContextPersisterDecorated extends SalesChannelContextPersister
     {
         $newToken = $this->decorated->replace($oldToken, $context);
 
-        $this->connection->executeUpdate(
+        $this->connection->executeStatement(
             'UPDATE `recently_viewed_product`
                    SET `token` = :newToken
                    WHERE `token` = :oldToken',
@@ -50,11 +43,11 @@ class SalesChannelContextPersisterDecorated extends SalesChannelContextPersister
         return $newToken;
     }
 
-    public function delete(string $token, ?string $salesChannelId = null, ?string $customerId = null): void
+    public function delete(string $token, string $salesChannelId, ?string $customerId = null): void
     {
         $this->decorated->delete($token, $salesChannelId, $customerId);
 
-        $this->connection->executeUpdate(
+        $this->connection->executeStatement(
             'DELETE FROM recently_viewed_product WHERE token = :token',
             [
                 'token' => $token,

@@ -25,6 +25,6 @@ class RecentProductCollection extends Collection
     {
         $search = array_search($productId, $this->elements, true);
 
-        return $search ?: null;
+        return $search !== false ? $search : null;
     }
 }

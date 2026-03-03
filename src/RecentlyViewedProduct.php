@@ -38,6 +38,6 @@ class RecentlyViewedProduct extends Plugin
 
         $connection = $this->container->get(Connection::class);
 
-        $connection->exec('DROP TABLE IF EXISTS recently_viewed_product;');
+        $connection->executeStatement('DROP TABLE IF EXISTS recently_viewed_product;');
     }
 }

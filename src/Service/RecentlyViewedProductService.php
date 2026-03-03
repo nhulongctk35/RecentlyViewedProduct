@@ -38,6 +38,11 @@ class RecentlyViewedProductService
     private $recentProducts;
 
     /**
+     * @var null|string
+     */
+    private $recentProductEntityId;
+
+    /**
      * @var null|ProductCollection
      */
     private $productEntities;
@@ -68,7 +73,9 @@ class RecentlyViewedProductService
 
         $result = $this->rpvRepository->search($criteria, $context->getContext());
 
-        $this->recentProducts = $result->first() ? $result->first()->getRecentProduct() : new RecentProductCollection();
+        $entity = $result->first();
+        $this->recentProducts = $entity ? $entity->getRecentProduct() : new RecentProductCollection();
+        $this->recentProductEntityId = $entity?->getId();
 
         $showInRandomOrder = $this->systemConfigService->get(RecentlyViewedProduct::PLUGIN_NAME . '.config.showInRandomOrder', $context->getSalesChannel()->getId()) ?? false;
 
@@ -110,10 +117,16 @@ class RecentlyViewedProductService
 
     public function saveRecentProductCollection(RecentProductCollection $recentProductCollection, SalesChannelContext $context): void
     {
-        $this->rpvRepository->upsert([[
+        $data = [
             'token' => $context->getToken(),
             'recentProduct' => $recentProductCollection,
-        ]], $context->getContext());
+        ];
+
+        if ($this->recentProductEntityId) {
+            $data['id'] = $this->recentProductEntityId;
+        }
+
+        $this->rpvRepository->upsert([$data], $context->getContext());
     }
 
     public function getRecentProductEntities(SalesChannelContext $context): ?ProductCollection

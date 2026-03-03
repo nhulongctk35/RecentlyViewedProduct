@@ -6,7 +6,7 @@
     <div class="cms-element-{{ element.type }}{% if sliderConfig.displayMode.value == "standard" and sliderConfig.verticalAlign.value %} has-vertical-alignment{% endif %}">
         {% block element_recently_viewed_product_slider_alignment %}
             {% if config.verticalAlign.value %}
-                <div class="cms-element-alignment{% if sliderConfig.verticalAlign.value == "center" %} align-self-center{% elseif sliderConfig.verticalAlign.value == "flex-end" %} align-self-end{% else %} align-self-start{% endif %}">
+                <div class="cms-element-alignment{% if sliderConfig.verticalAlign.value == "center" %} align-self-center{% elseif sliderConfig.verticalAlign.value == "bottom" %} align-self-end{% else %} align-self-start{% endif %}">
             {% endif %}
 
             {% set productSliderOptions = {
@@ -43,6 +43,7 @@
                     {% endblock %}
 
                     {% block element_recently_viewed_product_slider_inner %}
+                    
                         {% block element_recently_viewed_product_slider_element %}
                             <div class="product-slider-container"
                                  data-product-slider-container="true">
