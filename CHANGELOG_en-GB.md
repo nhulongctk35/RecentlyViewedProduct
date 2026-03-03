@@ -1,3 +1,9 @@
+# 5.0.0 - SW 6.7 Compatible
+- Compatible with Shopware 6.7
+- Fix: product collection not saving after first view due to missing entity ID on upsert
+- Fix: `findIndex` returning null for index 0 causing duplicate entries
+- Fix: template verticalAlign value mismatch
+
 # 1.2.0 - SW 6.4.11.0 Compatible
 - New version work on 6.4.11.0 onward, if you're using 6.4.10.0 backward, please use the 1.1.0 version
 
